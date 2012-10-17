@@ -3,6 +3,8 @@ package me.anxuiz.bukkitsettings;
 import java.util.Collection;
 import java.util.Set;
 
+import me.anxuiz.bukkitsettings.impl.SimpleSetting;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 

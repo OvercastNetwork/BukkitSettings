@@ -1,6 +1,9 @@
-package me.anxuiz.bukkitsettings;
+package me.anxuiz.bukkitsettings.impl;
 
 import java.util.Set;
+
+import me.anxuiz.bukkitsettings.Setting;
+import me.anxuiz.bukkitsettings.SettingRegistry;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;

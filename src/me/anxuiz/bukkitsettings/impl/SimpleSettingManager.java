@@ -1,19 +1,22 @@
-package me.anxuiz.bukkitsettings;
+package me.anxuiz.bukkitsettings.impl;
 
 import java.util.Map;
 
 import javax.annotation.Nullable;
 
+import me.anxuiz.bukkitsettings.Setting;
+import me.anxuiz.bukkitsettings.SettingManager;
+import me.anxuiz.bukkitsettings.plugin.BukkitSettingsPlugin;
 import me.anxuiz.bukkitsettings.util.TypeUtil;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
 public class SimpleSettingManager implements SettingManager {
-    protected final BukkitSettings plugin;
+    protected final BukkitSettingsPlugin plugin;
     protected final Map<Setting, Object> settings = Maps.newHashMap();
 
-    public SimpleSettingManager(BukkitSettings plugin) {
+    public SimpleSettingManager(BukkitSettingsPlugin plugin) {
         this.plugin = plugin;
     }
 

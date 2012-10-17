@@ -1,8 +1,12 @@
-package me.anxuiz.bukkitsettings;
+package me.anxuiz.bukkitsettings.impl;
 
 import java.util.Set;
 
 import javax.annotation.Nullable;
+
+import me.anxuiz.bukkitsettings.Setting;
+import me.anxuiz.bukkitsettings.SettingScope;
+import me.anxuiz.bukkitsettings.Type;
 
 import com.google.common.collect.ImmutableSortedSet;
 
@@ -16,7 +20,7 @@ public class SimpleSetting implements Setting {
     protected final Type type;
     protected final Object defaultValue;
 
-    protected SimpleSetting(String name,
+    public SimpleSetting(String name,
             Set<String> aliases,
             SettingScope scope,
             String summary,
