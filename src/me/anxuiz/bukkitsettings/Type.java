@@ -1,7 +1,5 @@
 package me.anxuiz.bukkitsettings;
 
-import java.text.ParseException;
-
 public interface Type {
     String getName();
 
@@ -11,5 +9,5 @@ public interface Type {
 
     String serialize(Object obj) throws IllegalArgumentException;
 
-    Object parse(String raw) throws ParseException;
+    Object parse(String raw) throws TypeParseException;
 }
