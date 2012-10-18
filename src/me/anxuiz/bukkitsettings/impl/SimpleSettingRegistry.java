@@ -54,6 +54,7 @@ public class SimpleSettingRegistry implements SettingRegistry {
     @Override
     public boolean isRegistered(Setting setting) {
         Preconditions.checkNotNull(setting);
+
         return this.settings.contains(setting);
     }
 
@@ -61,13 +62,12 @@ public class SimpleSettingRegistry implements SettingRegistry {
     public void register(Setting setting) throws IllegalArgumentException {
         Preconditions.checkNotNull(setting);
         Preconditions.checkArgument(this.get(setting.getName(), false) == null, "setting already registered to name '%s'", setting.getName());
+
         this.settings.add(setting);
     }
 
     @Override
     public boolean unregister(Setting setting) {
-        // TODO Auto-generated method stub
-        return false;
+        return this.settings.remove(setting);
     }
-
 }
