@@ -2,6 +2,7 @@ package me.anxuiz.bukkitsettings.impl;
 
 import me.anxuiz.bukkitsettings.Setting;
 import me.anxuiz.bukkitsettings.SettingManager;
+import me.anxuiz.bukkitsettings.util.TypeUtil;
 
 import com.google.common.base.Preconditions;
 
@@ -24,6 +25,19 @@ public abstract class AbstractSettingManager implements SettingManager {
             return value;
         } else {
             return defaultValue;
+        }
+    }
+
+    @Override
+    public <T> T getValue(Setting setting, Class<T> typeClass) throws IllegalArgumentException {
+        Preconditions.checkNotNull(setting);
+        Preconditions.checkNotNull(typeClass);
+
+        Object rawValue = this.getValue(setting);
+        if(rawValue != null) {
+            return TypeUtil.getValue(rawValue, typeClass);
+        } else {
+            return null;
         }
     }
 

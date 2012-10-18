@@ -14,7 +14,7 @@ public interface SettingManager {
 
     <T> T getValue(Setting setting, Class<T> typeClass, T defaultValue) throws IllegalArgumentException;
 
-    boolean setValue(Setting setting, Object value);
+    void setValue(Setting setting, Object value);
 
-    boolean deleteValue(Setting setting);
+    void deleteValue(Setting setting);
 }
