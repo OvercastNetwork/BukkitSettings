@@ -4,24 +4,17 @@ import javax.annotation.Nullable;
 
 
 public interface SettingManager {
-    @Nullable Setting getSetting(String search, boolean includeAliases);
+    boolean hasValue(Setting setting);
 
-    Setting findSetting(String search, boolean includeAliases) throws IllegalArgumentException;
+    @Nullable Object getValue(Setting setting);
 
-    void register(Setting setting) throws IllegalArgumentException;
-
-    boolean unregister(Setting setting);
-
-
-    @Nullable Object getValue(String search) throws IllegalArgumentException;
-
-    <T> T getValue(String search, Class<T> typeClass) throws IllegalArgumentException;
-
-    @Nullable Object getValue(Setting setting) throws IllegalArgumentException;
+    @Nullable Object getValue(Setting setting, Object defaultValue) throws IllegalArgumentException;
 
     <T> T getValue(Setting setting, Class<T> typeClass) throws IllegalArgumentException;
 
-    boolean setValue(String search, Object value) throws IllegalArgumentException;
+    <T> T getValue(Setting setting, Class<T> typeClass, T defaultValue) throws IllegalArgumentException;
 
-    boolean setValue(Setting setting, Object value) throws IllegalArgumentException;
+    boolean setValue(Setting setting, Object value);
+
+    boolean deleteValue(Setting setting);
 }
