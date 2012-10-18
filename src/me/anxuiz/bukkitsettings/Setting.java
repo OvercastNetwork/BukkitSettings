@@ -16,4 +16,6 @@ public interface Setting {
     Type getType();
 
     Object getDefaultValue();
+
+    void setDefaultValue(Object newDefault) throws IllegalArgumentException;
 }

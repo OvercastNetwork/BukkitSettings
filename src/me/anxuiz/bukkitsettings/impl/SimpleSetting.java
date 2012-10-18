@@ -8,6 +8,7 @@ import me.anxuiz.bukkitsettings.Setting;
 import me.anxuiz.bukkitsettings.SettingScope;
 import me.anxuiz.bukkitsettings.Type;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSortedSet;
 
 public class SimpleSetting implements Setting {
@@ -18,7 +19,7 @@ public class SimpleSetting implements Setting {
     protected final String description;
 
     protected final Type type;
-    protected final Object defaultValue;
+    protected Object defaultValue;
 
     public SimpleSetting(String name,
             Set<String> aliases,
@@ -73,6 +74,14 @@ public class SimpleSetting implements Setting {
     @Override
     public Object getDefaultValue() {
         return this.defaultValue;
+    }
+
+    @Override
+    public void setDefaultValue(Object newDefault) throws IllegalArgumentException {
+        Preconditions.checkNotNull(newDefault);
+        Preconditions.checkArgument(this.type.isInstance(newDefault));
+
+        this.defaultValue = newDefault;
     }
 
     @Override
