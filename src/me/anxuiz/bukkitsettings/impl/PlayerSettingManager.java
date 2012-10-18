@@ -3,6 +3,7 @@ package me.anxuiz.bukkitsettings.impl;
 import java.util.List;
 
 import me.anxuiz.bukkitsettings.Setting;
+import me.anxuiz.bukkitsettings.SettingChangeEvent;
 
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -42,7 +43,14 @@ public class PlayerSettingManager extends AbstractSettingManager {
         Preconditions.checkNotNull(value);
         Preconditions.checkArgument(setting.getType().isInstance(value));
 
-        this.player.setMetadata(getMetadataKey(setting), new FixedMetadataValue(this.parent, value));
+        Object oldValue = this.getValue(setting);
+
+        SettingChangeEvent event = new SettingChangeEvent(setting, oldValue, value);
+        this.parent.getServer().getPluginManager().callEvent(event);
+
+        if(!event.isCancelled()) {
+            this.player.setMetadata(getMetadataKey(setting), new FixedMetadataValue(this.parent, value));
+        }
     }
 
     @Override
