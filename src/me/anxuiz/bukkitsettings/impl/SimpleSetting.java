@@ -81,7 +81,9 @@ public class SimpleSetting implements Setting {
         Preconditions.checkNotNull(newDefault);
         Preconditions.checkArgument(this.type.isInstance(newDefault));
 
-        this.defaultValue = newDefault;
+        synchronized(this) {
+            this.defaultValue = newDefault;
+        }
     }
 
     @Override
