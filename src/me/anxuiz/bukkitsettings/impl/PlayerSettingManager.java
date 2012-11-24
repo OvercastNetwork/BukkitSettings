@@ -3,6 +3,7 @@ package me.anxuiz.bukkitsettings.impl;
 import java.util.List;
 
 import me.anxuiz.bukkitsettings.Setting;
+import me.anxuiz.bukkitsettings.SettingCallbackManager;
 import me.anxuiz.bukkitsettings.SettingChangeEvent;
 
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ import com.google.common.base.Preconditions;
 public class PlayerSettingManager extends AbstractSettingManager {
     protected final Plugin parent;
     protected final Player player;
+    protected final SimpleSettingCallbackManager callbackManager = new SimpleSettingCallbackManager();
 
     public PlayerSettingManager(Plugin parent, Player player) {
         Preconditions.checkNotNull(parent);
@@ -72,5 +74,10 @@ public class PlayerSettingManager extends AbstractSettingManager {
             }
         }
         return null;
+    }
+
+    @Override
+    public SettingCallbackManager getCallbackManager() {
+        return this.callbackManager;
     }
 }

@@ -17,4 +17,6 @@ public interface SettingManager {
     void setValue(Setting setting, Object value);
 
     void deleteValue(Setting setting);
+
+    SettingCallbackManager getCallbackManager();
 }
