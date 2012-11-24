@@ -3,9 +3,9 @@
 
     <!-- Parent Project Information -->
     <groupId>me.anxuiz</groupId>
-    <artifactId>PlayerSettings</artifactId>
+    <artifactId>bukkit-settings</artifactId>
     <version>0.1.0-SNAPSHOT</version>
-    <name>Player Settings</name>
+    <name>Bukkit Settings</name>
     <description>Bukkit plugin and API for controlling player settings.</description>
 
     <!-- Repository Locations -->
@@ -23,11 +23,6 @@
             <artifactId>bukkit</artifactId>
             <version>1.3.1-R2.0</version>
             <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>com.sk89q</groupId>
-            <artifactId>sk89q-command-framework</artifactId>
-            <version>0.3</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -59,33 +54,6 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
-            <!-- shading -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>1.7.1</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <artifactSet>
-                                <includes>
-                                    <include>com.sk89q:sk89q-command-framework</include>
-                                </includes>
-                            </artifactSet>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
-
-    <!-- Special Properties -->
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <skipTests>true</skipTests>
-    </properties>
 </project>
