@@ -48,7 +48,7 @@ public class PlayerSettingManager extends AbstractSettingManager {
 
         Object oldValue = this.getValue(setting);
 
-        this.callbackManager.notify(setting, oldValue, value);
+        this.callbackManager.notifyChange(this, setting, oldValue, value);
 
         this.player.setMetadata(getMetadataKey(setting), new FixedMetadataValue(this.parent, value));
     }
