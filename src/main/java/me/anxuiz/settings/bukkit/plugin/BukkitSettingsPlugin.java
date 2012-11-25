@@ -17,8 +17,8 @@ public final class BukkitSettingsPlugin extends JavaPlugin {
         inst = this;
 
         this.registerEvents(new PlayerListener());
-        this.getCommand("get").setExecutor(new GetCommand(this));
-        this.getCommand("set").setExecutor(new SetCommand(this));
+        this.getCommand("get").setExecutor(new GetCommand());
+        this.getCommand("set").setExecutor(new SetCommand());
         this.getCommand("setting").setExecutor(new SettingCommand());
         this.getCommand("settings").setExecutor(new SettingsCommand());
         this.getCommand("toggle").setExecutor(new ToggleCommand());
