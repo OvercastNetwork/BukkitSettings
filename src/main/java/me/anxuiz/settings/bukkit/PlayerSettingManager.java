@@ -2,6 +2,9 @@ package me.anxuiz.settings.bukkit;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import me.anxuiz.settings.Setting;
 import me.anxuiz.settings.SettingCallbackManager;
 import me.anxuiz.settings.base.AbstractSettingManager;
@@ -15,13 +18,12 @@ import org.bukkit.plugin.Plugin;
 import com.google.common.base.Preconditions;
 
 public class PlayerSettingManager extends AbstractSettingManager {
-    protected final Plugin parent;
-    protected final Player player;
-    protected final SimpleSettingCallbackManager callbackManager;
+    protected final @Nullable Plugin parent;
+    protected final @Nonnull Player player;
+    protected final @Nonnull SimpleSettingCallbackManager callbackManager;
 
-    public PlayerSettingManager(SimpleSettingCallbackManager callbackManager, Plugin parent, Player player) {
+    public PlayerSettingManager(@Nonnull SimpleSettingCallbackManager callbackManager, @Nullable Plugin parent, @Nonnull Player player) {
         Preconditions.checkNotNull(callbackManager, "callback manager");
-        Preconditions.checkNotNull(parent, "parent plugin");
         Preconditions.checkNotNull(player, "player");
 
         this.parent = parent;
@@ -29,7 +31,8 @@ public class PlayerSettingManager extends AbstractSettingManager {
         this.callbackManager = callbackManager;
     }
 
-    public Object getValue(Setting setting) {
+    @Override
+    public Object getRawValue(Setting setting) {
         Preconditions.checkNotNull(setting, "setting");
 
         Object value = this.getMetadataValue(getMetadataKey(setting));
@@ -46,6 +49,10 @@ public class PlayerSettingManager extends AbstractSettingManager {
         Preconditions.checkNotNull(value, "value");
         Preconditions.checkArgument(setting.getType().isInstance(value), "value is not the correct type");
 
+        if(this.parent == null) {
+            return;
+        }
+
         Object oldValue = this.getValue(setting);
 
         this.callbackManager.notifyChange(this, setting, oldValue, value);
@@ -56,7 +63,9 @@ public class PlayerSettingManager extends AbstractSettingManager {
     public void deleteValue(Setting setting) {
         Preconditions.checkNotNull(setting, "setting");
 
-        this.player.removeMetadata(getMetadataKey(setting), this.parent);
+        if(this.parent != null) {
+            this.player.removeMetadata(getMetadataKey(setting), this.parent);
+        }
     }
 
     private static String getMetadataKey(Setting setting) {
@@ -64,12 +73,17 @@ public class PlayerSettingManager extends AbstractSettingManager {
     }
 
     private Object getMetadataValue(String key) {
+        if(this.parent == null) {
+            return null;
+        }
+
         List<MetadataValue> values = this.player.getMetadata(key);
         for(MetadataValue value : values) {
             if(value.getOwningPlugin() == this.parent) {
                 return value.value();
             }
         }
+
         return null;
     }
 

@@ -1,5 +1,7 @@
 package me.anxuiz.settings.bukkit;
 
+import javax.annotation.Nonnull;
+
 import me.anxuiz.settings.SettingCallbackManager;
 import me.anxuiz.settings.SettingManager;
 import me.anxuiz.settings.SettingRegistry;
@@ -12,23 +14,20 @@ import org.bukkit.entity.Player;
 import com.google.common.base.Preconditions;
 
 public class PlayerSettings {
-    private static SettingRegistry registry = new SimpleSettingRegistry();
-    private static SimpleSettingCallbackManager callbackManager = new SimpleSettingCallbackManager();
+    private static final SettingRegistry registry = new SimpleSettingRegistry();
+    private static final SimpleSettingCallbackManager callbackManager = new SimpleSettingCallbackManager();
 
-    public static SettingRegistry getRegistry() {
+    public static @Nonnull SettingRegistry getRegistry() {
         return registry;
     }
 
-    public static SettingCallbackManager getCallbackManager() {
+    public static @Nonnull SettingCallbackManager getCallbackManager() {
         return callbackManager;
     }
 
-    public static SettingManager getManager(Player player) throws IllegalStateException {
-        Preconditions.checkNotNull(player);
+    public static @Nonnull SettingManager getManager(@Nonnull Player player) {
+        Preconditions.checkNotNull(player, "player");
 
-        BukkitSettingsPlugin plugin = BukkitSettingsPlugin.get();
-        Preconditions.checkState(plugin != null, "BukkitSettings plugin has not been loaded");
-
-        return new PlayerSettingManager(callbackManager, plugin, player);
+        return new PlayerSettingManager(callbackManager, BukkitSettingsPlugin.get(), player);
     }
 }
