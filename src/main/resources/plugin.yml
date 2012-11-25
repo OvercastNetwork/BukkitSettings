@@ -1,0 +1,22 @@
+name: BukkitSettings
+main: me.anxuiz.settings.bukkit.plugin.BukkitSettingsPlugin
+version: ${project.version}
+author: Anxuiz
+
+commands:
+  get:
+    usage: /<command> <setting name>
+    description: Gets a setting's value
+  set:
+    usage: /<command> <setting name> <setting value>
+    description: Sets a setting's value
+  setting:
+    usage: /<command> <setting name>
+    description: View information about a setting
+  settings:
+    usage: /<command> [page]
+    description: List registered settings
+    permission: settings.list
+  toggle:
+    usage: /<command> <setting name>
+    description: Toggle a setting's value if it supports toggling
