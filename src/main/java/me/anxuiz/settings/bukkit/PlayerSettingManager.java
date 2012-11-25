@@ -31,6 +31,10 @@ public class PlayerSettingManager extends AbstractSettingManager {
         this.callbackManager = callbackManager;
     }
 
+    public Player getPlayer() {
+        return this.player;
+    }
+
     @Override
     public Object getRawValue(Setting setting) {
         Preconditions.checkNotNull(setting, "setting");
