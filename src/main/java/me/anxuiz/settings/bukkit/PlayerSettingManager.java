@@ -48,7 +48,7 @@ public class PlayerSettingManager extends AbstractSettingManager {
         }
     }
 
-    public void setValue(Setting setting, Object value) {
+    public void setValue(Setting setting, Object value, boolean notifyGlobal) {
         Preconditions.checkNotNull(setting, "setting");
         Preconditions.checkNotNull(value, "value");
         Preconditions.checkArgument(setting.getType().isInstance(value), "value is not the correct type");
@@ -59,7 +59,7 @@ public class PlayerSettingManager extends AbstractSettingManager {
 
         Object oldValue = this.getValue(setting);
 
-        this.callbackManager.notifyChange(this, setting, oldValue, value);
+        this.callbackManager.notifyChange(this, setting, oldValue, value, notifyGlobal);
 
         this.player.setMetadata(getMetadataKey(setting), new FixedMetadataValue(this.parent, value));
     }
