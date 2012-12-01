@@ -16,7 +16,6 @@ commands:
   settings:
     usage: /<command> [page]
     description: List registered settings
-    permission: settings.list
   toggle:
     usage: /<command> <setting name>
     description: Toggles a specified setting if it is toggleable

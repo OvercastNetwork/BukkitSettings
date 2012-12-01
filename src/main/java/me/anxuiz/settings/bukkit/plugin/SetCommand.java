@@ -30,20 +30,24 @@ public class SetCommand implements CommandExecutor {
 
         Setting setting = PlayerSettings.getRegistry().get(args[0], true);
 
-        if(setting != null) {
-            // try to parse
-            String raw = Joiner.on(' ').join(Arrays.asList(args).subList(1, args.length));
-            Object value;
-            try {
-                value = setting.getType().parse(raw);
-            } catch (TypeParseException e) {
-                sender.sendMessage(ChatColor.RED + "Failed to parse: " + raw + " (type: " + setting.getType().getName() + ")");
-                sender.sendMessage(ChatColor.RED + "Error: " + e.getMessage());
-                return true;
+        if(setting != null && Permissions.hasViewPermission(sender, setting)) {
+            if(Permissions.hasSetPermission(sender, setting)) {
+                // try to parse
+                String raw = Joiner.on(' ').join(Arrays.asList(args).subList(1, args.length));
+                Object value;
+                try {
+                    value = setting.getType().parse(raw);
+                } catch (TypeParseException e) {
+                    sender.sendMessage(ChatColor.RED + "Failed to parse: " + raw + " (type: " + setting.getType().getName() + ")");
+                    sender.sendMessage(ChatColor.RED + "Error: " + e.getMessage());
+                    return true;
+                }
+                SettingManager manager = PlayerSettings.getManager(player);
+                manager.setValue(setting, value);
+                Commands.sendSettingValue(sender, manager, setting);
+            } else {
+                sender.sendMessage(Commands.NO_PERMISSION);
             }
-            SettingManager manager = PlayerSettings.getManager(player);
-            manager.setValue(setting, value);
-            Commands.sendSettingValue(sender, manager, setting);
         } else {
             sender.sendMessage(Commands.SETTING_NOT_FOUND);
         }

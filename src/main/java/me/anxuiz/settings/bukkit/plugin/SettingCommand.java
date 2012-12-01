@@ -19,7 +19,7 @@ public class SettingCommand implements CommandExecutor {
 
         Setting setting = PlayerSettings.getRegistry().get(args[0], true);
 
-        if(setting != null) {
+        if(setting != null && Permissions.hasViewPermission(sender, setting)) {
             this.sendSettingInfo(sender, setting);
         } else {
             sender.sendMessage(Commands.SETTING_NOT_FOUND);

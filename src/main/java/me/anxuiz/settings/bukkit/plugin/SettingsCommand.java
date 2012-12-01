@@ -2,6 +2,7 @@ package me.anxuiz.settings.bukkit.plugin;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import me.anxuiz.settings.Setting;
@@ -18,7 +19,12 @@ public class SettingsCommand implements CommandExecutor {
     public static int RESULTS_PER_PAGE = 8;
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        List<Setting> settings = getSortedPlayerSettings();
+        if(!Permissions.hasListPermission(sender)) {
+            sender.sendMessage(Commands.NO_PERMISSION);
+            return true;
+        }
+
+        List<Setting> settings = getSortedPlayerSettings(sender);
 
         int maxPage = Math.max(1, settings.size() / RESULTS_PER_PAGE); // minimum max page is 1
 
@@ -47,6 +53,17 @@ public class SettingsCommand implements CommandExecutor {
     public static List<Setting> getSortedPlayerSettings() {
         List<Setting> settings = Lists.newArrayList(PlayerSettings.getRegistry().getSettings());
         Collections.sort(settings, SETTING_NAME_COMPARATOR);
+        return settings;
+    }
+
+    public static List<Setting> getSortedPlayerSettings(CommandSender sender) {
+        List<Setting> settings = getSortedPlayerSettings();
+        for(Iterator<Setting> it = settings.iterator(); it.hasNext(); ) {
+            Setting setting = it.next();
+            if(!Permissions.hasViewPermission(sender, setting)) {
+                it.remove();
+            }
+        }
         return settings;
     }
 

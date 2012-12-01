@@ -20,8 +20,12 @@ public class GetCommand implements CommandExecutor {
         }
 
         Setting setting = PlayerSettings.getRegistry().get(args[0], true);
-        if(setting != null) {
-            Commands.sendSettingValue(sender, setting);
+        if(setting != null && Permissions.hasViewPermission(sender, setting)) {
+            if(Permissions.hasGetPermission(sender, setting)) {
+                Commands.sendSettingValue(sender, setting);
+            } else {
+                sender.sendMessage(Commands.NO_PERMISSION);
+            }
         } else {
             sender.sendMessage(Commands.SETTING_NOT_FOUND);
         }

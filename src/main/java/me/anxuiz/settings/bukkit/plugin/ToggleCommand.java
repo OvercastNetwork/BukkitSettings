@@ -26,12 +26,16 @@ public class ToggleCommand implements CommandExecutor {
 
         Setting setting = PlayerSettings.getRegistry().get(args[0], true);
 
-        if(setting != null) {
+        if(setting != null && Permissions.hasViewPermission(sender, setting)) {
             if(setting.getType() instanceof Toggleable) {
-                SettingManager manager = PlayerSettings.getManager(player);
-                Object newValue = ((Toggleable) setting.getType()).getNextState(manager.getValue(setting));
-                manager.setValue(setting, newValue);
-                Commands.sendSettingValue(sender, manager, setting);
+                if(Permissions.hasSetPermission(sender, setting)) {
+                    SettingManager manager = PlayerSettings.getManager(player);
+                    Object newValue = ((Toggleable) setting.getType()).getNextState(manager.getValue(setting));
+                    manager.setValue(setting, newValue);
+                    Commands.sendSettingValue(sender, manager, setting);
+                } else {
+                    sender.sendMessage(Commands.NO_PERMISSION);
+                }
             } else {
                 sender.sendMessage(ChatColor.RED + setting.getName() + " is not toggleable");
             }
