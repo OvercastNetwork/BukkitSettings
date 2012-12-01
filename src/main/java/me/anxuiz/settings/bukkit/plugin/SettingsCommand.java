@@ -33,11 +33,12 @@ public class SettingsCommand implements CommandExecutor {
         }
         page = Math.min(maxPage, Math.max(page, 1)); // constrain page to valid number
 
-        sender.sendMessage(ChatColor.GOLD + "Settings (Page " + page + " of " + maxPage + ")");
+        String title = ChatColor.YELLOW + "Settings (Page " + page + " of " + maxPage + ")";
+        sender.sendMessage(Commands.formatHeader(title));
 
         for(int i = RESULTS_PER_PAGE * (page - 1); i < RESULTS_PER_PAGE * page && i < settings.size(); i++) {
             Setting setting = settings.get(i);
-            sender.sendMessage(setting.getName());
+            sender.sendMessage(ChatColor.YELLOW + setting.getName() + ": " + ChatColor.RESET + setting.getSummary());
         }
 
         return true;
@@ -45,13 +46,13 @@ public class SettingsCommand implements CommandExecutor {
 
     public static List<Setting> getSortedPlayerSettings() {
         List<Setting> settings = Lists.newArrayList(PlayerSettings.getRegistry().getSettings());
-        Collections.sort(settings, new SettingNameComparator());
+        Collections.sort(settings, SETTING_NAME_COMPARATOR);
         return settings;
     }
 
-    private static class SettingNameComparator implements Comparator<Setting> {
+    private static final Comparator<Setting> SETTING_NAME_COMPARATOR = new Comparator<Setting>() {
         public int compare(Setting s1, Setting s2) {
             return s1.getName().compareTo(s2.getName());
         }
-    }
+    };
 }

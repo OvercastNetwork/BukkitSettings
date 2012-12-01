@@ -29,18 +29,18 @@ public class SettingCommand implements CommandExecutor {
     }
 
     public void sendSettingInfo(CommandSender sender, Setting setting) {
-        sender.sendMessage(ChatColor.GOLD + setting.getName());
-        sender.sendMessage(ChatColor.RED + "Type: " + setting.getType().getName());
-        sender.sendMessage(ChatColor.RED + setting.getSummary());
+        sender.sendMessage(Commands.formatHeader(ChatColor.YELLOW + setting.getName()));
+        sender.sendMessage(ChatColor.YELLOW + "Summary: " + ChatColor.RESET + setting.getSummary());
         if(setting.hasDescription()) {
             for(String line : Splitter.on('\n').split(setting.getDescription())) {
-                sender.sendMessage(ChatColor.GREEN + line);
+                sender.sendMessage(ChatColor.YELLOW + line);
             }
         }
-        sender.sendMessage("Default: " + setting.getType().print(setting.getDefaultValue()));
+        sender.sendMessage(ChatColor.YELLOW + "Type: " + ChatColor.RESET + setting.getType().getName());
+        sender.sendMessage(ChatColor.YELLOW + "Default value: " + ChatColor.RESET + setting.getType().print(setting.getDefaultValue()));
         if(sender instanceof Player) {
-            Player player = (Player) sender;
-            sender.sendMessage("Current value: " + setting.getType().print(PlayerSettings.getManager(player).getValue(setting)));
+            Object value = PlayerSettings.getManager((Player) sender).getValue(setting);
+            sender.sendMessage(ChatColor.YELLOW + "Current value: " + ChatColor.RESET + setting.getType().print(value));
         }
     }
 }

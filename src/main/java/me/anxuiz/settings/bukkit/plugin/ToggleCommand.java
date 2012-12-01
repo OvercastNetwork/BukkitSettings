@@ -31,7 +31,7 @@ public class ToggleCommand implements CommandExecutor {
                 SettingManager manager = PlayerSettings.getManager(player);
                 Object newValue = ((Toggleable) setting.getType()).getNextState(manager.getValue(setting));
                 manager.setValue(setting, newValue);
-                sender.sendMessage(ChatColor.GREEN + "Toggled " + setting.getName() + " to " + setting.getType().print(newValue));
+                Commands.sendSettingValue(sender, manager, setting);
             } else {
                 sender.sendMessage(ChatColor.RED + setting.getName() + " is not toggleable");
             }

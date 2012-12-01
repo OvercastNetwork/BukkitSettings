@@ -3,6 +3,7 @@ package me.anxuiz.settings.bukkit.plugin;
 import java.util.Arrays;
 
 import me.anxuiz.settings.Setting;
+import me.anxuiz.settings.SettingManager;
 import me.anxuiz.settings.TypeParseException;
 import me.anxuiz.settings.bukkit.PlayerSettings;
 
@@ -36,12 +37,13 @@ public class SetCommand implements CommandExecutor {
             try {
                 value = setting.getType().parse(raw);
             } catch (TypeParseException e) {
-                sender.sendMessage(ChatColor.RED + "Failed to parse: " + raw);
-                sender.sendMessage(ChatColor.RED + "Error: " + raw);
+                sender.sendMessage(ChatColor.RED + "Failed to parse: " + raw + " (type: " + setting.getType().getName() + ")");
+                sender.sendMessage(ChatColor.RED + "Error: " + e.getMessage());
                 return true;
             }
-            PlayerSettings.getManager(player).setValue(setting, value);
-            sender.sendMessage(ChatColor.GREEN + "Set " + setting.getName() + " to " + setting.getType().print(value));
+            SettingManager manager = PlayerSettings.getManager(player);
+            manager.setValue(setting, value);
+            Commands.sendSettingValue(sender, manager, setting);
         } else {
             sender.sendMessage(Commands.SETTING_NOT_FOUND);
         }

@@ -2,7 +2,6 @@ package me.anxuiz.settings.bukkit.plugin;
 
 import javax.annotation.Nullable;
 
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BukkitSettingsPlugin extends JavaPlugin {
@@ -13,23 +12,18 @@ public final class BukkitSettingsPlugin extends JavaPlugin {
     }
 
     @Override
+    public void onDisable() {
+        inst = null;
+    }
+
+    @Override
     public void onEnable() {
         inst = this;
 
-        this.registerEvents(new PlayerListener());
         this.getCommand("get").setExecutor(new GetCommand());
         this.getCommand("set").setExecutor(new SetCommand());
         this.getCommand("setting").setExecutor(new SettingCommand());
         this.getCommand("settings").setExecutor(new SettingsCommand());
         this.getCommand("toggle").setExecutor(new ToggleCommand());
-    }
-
-    @Override
-    public void onDisable() {
-        inst = null;
-    }
-
-    private void registerEvents(Listener listener) {
-        this.getServer().getPluginManager().registerEvents(listener, this);
     }
 }
