@@ -6,17 +6,17 @@ author: Anxuiz
 commands:
   get:
     usage: /<command> <setting name>
-    description: Gets a setting's value
+    description: Gets the value of a speficied setting
   set:
     usage: /<command> <setting name> <setting value>
-    description: Sets a setting's value
+    description: Sets the value of a specified setting
   setting:
     usage: /<command> <setting name>
-    description: View information about a setting
+    description: View information about a specified setting
   settings:
     usage: /<command> [page]
     description: List registered settings
     permission: settings.list
   toggle:
     usage: /<command> <setting name>
-    description: Toggle a setting's value if it supports toggling
+    description: Toggles a specified setting if it is toggleable
