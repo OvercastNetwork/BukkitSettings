@@ -83,7 +83,7 @@ public class PlayerSettingManager extends AbstractSettingManager {
 
         List<MetadataValue> values = this.player.getMetadata(key);
         for(MetadataValue value : values) {
-            if(value.getOwningPlugin() == this.parent) {
+            if(value.getOwningPlugin().equals(this.parent)) {
                 return value.value();
             }
         }
