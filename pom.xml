@@ -13,18 +13,18 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:git:git@github.com:Anxuiz/BukkitSettings.git</connection>
-        <developerConnection>scm:git:git@github.com:Anxuiz/BukkitSettings.git</developerConnection>
-        <url>https://github.com/Anxuiz/BukkitSettings</url>
+        <connection>scm:git:git@github.com:OvercastNetwork/BukkitSettings.git</connection>
+        <developerConnection>scm:git:git@github.com:OvercastNetwork/BukkitSettings.git</developerConnection>
+        <url>https://github.com/OvercastNetwork/BukkitSettings</url>
     </scm>
     <distributionManagement>
         <repository>
-            <id>repo.oc.tc</id>
-            <url>http://repo.oc.tc/content/repositories/releases</url>
+            <id>overcast-deployment</id>
+            <url>https://repo.oc.tc/content/repositories/releases</url>
         </repository>
         <snapshotRepository>
-            <id>repo.oc.tc</id>
-            <url>http://repo.oc.tc/content/repositories/snapshots</url>
+            <id>overcast-deployment</id>
+            <url>https://repo.oc.tc/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
     <repositories>
@@ -33,8 +33,8 @@
             <url>http://repo.bukkit.org/content/groups/public</url>
         </repository>
         <repository>
-            <id>repo.oc.tc</id>
-            <url>http://repo.oc.tc/content/groups/public</url>
+            <id>overcast</id>
+            <url>https://repo.oc.tc/content/groups/public</url>
         </repository>
     </repositories>
     <dependencies>
