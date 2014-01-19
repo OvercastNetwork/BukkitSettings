@@ -29,7 +29,9 @@ public class SettingCommand {
         Setting setting = PlayerSettings.getRegistry().get(args.getString(0), true);
 
         if(setting != null && Permissions.hasViewPermission(sender, setting)) {
-            sender.sendMessage((String[]) getSettingInfo(sender, setting).toArray());
+            for (String message : SettingCommand.getSettingInfo(sender, setting)) {
+                sender.sendMessage(message);
+            }
         } else {
             throw new CommandException(Commands.SETTING_NOT_FOUND);
         }
