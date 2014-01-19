@@ -1,4 +1,4 @@
-package me.anxuiz.settings.bukkit.plugin;
+package me.anxuiz.settings.bukkit.commands.core;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -7,21 +7,30 @@ import java.util.List;
 
 import me.anxuiz.settings.Setting;
 import me.anxuiz.settings.bukkit.PlayerSettings;
+import me.anxuiz.settings.bukkit.commands.util.Commands;
+import me.anxuiz.settings.bukkit.commands.util.Permissions;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import com.google.common.collect.Lists;
+import com.sk89q.minecraft.util.commands.Command;
+import com.sk89q.minecraft.util.commands.CommandContext;
+import com.sk89q.minecraft.util.commands.CommandException;
 
-public class SettingsCommand implements CommandExecutor {
+public class SettingsCommand {
     public static int RESULTS_PER_PAGE = 8;
 
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    @Command(
+        aliases = {"settings"},
+        usage = "[page]",
+        desc = "Shows all settings",
+        min = 0,
+        max = 1
+    )
+    public static void settings(CommandContext args, CommandSender sender) throws CommandException {
         if(!Permissions.hasListPermission(sender)) {
-            sender.sendMessage(Commands.NO_PERMISSION);
-            return true;
+            throw new CommandException(Commands.NO_PERMISSION);
         }
 
         List<Setting> settings = getSortedPlayerSettings(sender);
@@ -29,12 +38,11 @@ public class SettingsCommand implements CommandExecutor {
         int maxPage = Math.max(1, settings.size() / RESULTS_PER_PAGE); // minimum max page is 1
 
         int page = 1;
-        if(args.length > 0) {
+        if(args.argsLength() > 0) {
             try {
-                page = Integer.parseInt(args[0]);
+                page = args.getInteger(0);
             } catch (NumberFormatException e) {
-                sender.sendMessage(ChatColor.RED + "Unable to parse page number");
-                return true;
+                // Already caught in the main plugin, do nothing
             }
         }
         page = Math.min(maxPage, Math.max(page, 1)); // constrain page to valid number
@@ -46,8 +54,6 @@ public class SettingsCommand implements CommandExecutor {
             Setting setting = settings.get(i);
             sender.sendMessage(ChatColor.YELLOW + setting.getName() + ": " + ChatColor.RESET + setting.getSummary());
         }
-
-        return true;
     }
 
     public static List<Setting> getSortedPlayerSettings() {
