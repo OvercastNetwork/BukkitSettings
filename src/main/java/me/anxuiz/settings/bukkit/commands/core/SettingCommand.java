@@ -20,7 +20,7 @@ import com.sk89q.minecraft.util.commands.CommandException;
 public class SettingCommand {
 
     @Command(
-        aliases = {"get"},
+        aliases = {"setting"},
         usage = "<setting>",
         desc = "Gets the option you have selected for a specific setting",
         max = 1
