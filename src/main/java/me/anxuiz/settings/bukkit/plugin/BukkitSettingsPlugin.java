@@ -2,16 +2,12 @@ package me.anxuiz.settings.bukkit.plugin;
 
 import javax.annotation.Nullable;
 
-import me.anxuiz.settings.Setting;
 import me.anxuiz.settings.bukkit.commands.core.GetCommand;
 import me.anxuiz.settings.bukkit.commands.core.ResetCommand;
 import me.anxuiz.settings.bukkit.commands.core.SetCommand;
 import me.anxuiz.settings.bukkit.commands.core.SettingCommand;
 import me.anxuiz.settings.bukkit.commands.core.SettingsCommand;
 import me.anxuiz.settings.bukkit.commands.core.ToggleCommand;
-import me.anxuiz.settings.bukkit.commands.util.GenericTabCompleter;
-import me.anxuiz.settings.bukkit.commands.util.Permissions;
-import me.anxuiz.settings.bukkit.commands.util.PermissionsChecker;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -46,31 +42,6 @@ public final class BukkitSettingsPlugin extends JavaPlugin {
         inst = this;
 
         this.setupCommands();
-
-        // Assign Tab Completers
-        this.getCommand("get").setTabCompleter(new GenericTabCompleter(
-                new PermissionsChecker() {
-                    public boolean check(CommandSender sender, Setting setting) {
-                        return Permissions.hasViewPermission(sender, setting) && Permissions.hasGetPermission(sender, setting);
-                    }
-                }
-        ));
-        GenericTabCompleter setTabCompleter = new GenericTabCompleter(
-                new PermissionsChecker() {
-                    public boolean check(CommandSender sender, Setting setting) {
-                        return Permissions.hasViewPermission(sender, setting) && Permissions.hasSetPermission(sender, setting);
-                    }
-                }
-        );
-        this.getCommand("set").setTabCompleter(setTabCompleter);
-        this.getCommand("toggle").setTabCompleter(setTabCompleter);
-        this.getCommand("setting").setTabCompleter(new GenericTabCompleter(
-                new PermissionsChecker() {
-                    public boolean check(CommandSender sender, Setting setting) {
-                        return Permissions.hasViewPermission(sender, setting);
-                    }
-                }
-        ));
     }
     
     private void setupCommands() {
