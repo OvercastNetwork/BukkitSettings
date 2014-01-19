@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import me.anxuiz.settings.Setting;
 import me.anxuiz.settings.bukkit.commands.core.GetCommand;
+import me.anxuiz.settings.bukkit.commands.core.ResetCommand;
 import me.anxuiz.settings.bukkit.commands.core.SetCommand;
 import me.anxuiz.settings.bukkit.commands.core.SettingCommand;
 import me.anxuiz.settings.bukkit.commands.core.SettingsCommand;
@@ -84,6 +85,7 @@ public final class BukkitSettingsPlugin extends JavaPlugin {
         register.register(SettingCommand.class);
         register.register(SettingsCommand.class);
         register.register(ToggleCommand.class);
+        register.register(ResetCommand.class);
     }
     
     @Override
