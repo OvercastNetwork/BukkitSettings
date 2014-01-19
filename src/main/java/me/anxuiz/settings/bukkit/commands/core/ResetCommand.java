@@ -18,7 +18,7 @@ public class ResetCommand {
     @Command(
         aliases = {"reset"},
         usage = "<setting>",
-        desc = "Resets a setting",
+        desc = "Resets a setting to its default value",
         max = 1
     )
     public static void reset(CommandContext args, CommandSender sender) throws CommandException {
