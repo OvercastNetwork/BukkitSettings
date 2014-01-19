@@ -12,9 +12,9 @@ import org.bukkit.util.ChatPaginator;
 import com.google.common.base.Strings;
 
 public class Commands {
-    public static final String PLAYERS_ONLY = ChatColor.RED + "Settings are only available to players.";
-    public static final String SETTING_NOT_FOUND = ChatColor.RED + "No settings matched query.";
-    public static final String NO_PERMISSION = ChatColor.RED + "No permission";
+    public static final String PLAYERS_ONLY = "Settings are only available to players.";
+    public static final String SETTING_NOT_FOUND = "No settings matched query.";
+    public static final String NO_PERMISSION = "No permission";
 
     public static String formatHeader(String title) {
         return formatHeader(title, ChatColor.RED);
