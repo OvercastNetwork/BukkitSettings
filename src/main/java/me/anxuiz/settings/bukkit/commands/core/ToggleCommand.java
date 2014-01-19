@@ -7,26 +7,29 @@ import me.anxuiz.settings.bukkit.PlayerSettings;
 import me.anxuiz.settings.bukkit.commands.util.Commands;
 import me.anxuiz.settings.bukkit.commands.util.Permissions;
 
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class ToggleCommand implements CommandExecutor {
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(!(sender instanceof Player)) {
-            sender.sendMessage(Commands.PLAYERS_ONLY);
-            return true;
-        }
+import com.sk89q.minecraft.util.commands.Command;
+import com.sk89q.minecraft.util.commands.CommandContext;
+import com.sk89q.minecraft.util.commands.CommandException;
 
-        if(args.length < 1) {
-            return false;
+public class ToggleCommand {
+
+    @Command(
+        aliases = {"toggle"},
+        usage = "<setting>",
+        desc = "Toggles the setting for a specific setting",
+        max = 1
+    )
+    public static void toggle(CommandContext args, CommandSender sender) throws CommandException {
+        if(!(sender instanceof Player)) {
+            throw new CommandException(Commands.PLAYERS_ONLY);
         }
 
         Player player = (Player) sender;
 
-        Setting setting = PlayerSettings.getRegistry().get(args[0], true);
+        Setting setting = PlayerSettings.getRegistry().get(args.getString(0), true);
 
         if(setting != null && Permissions.hasViewPermission(sender, setting)) {
             if(setting.getType() instanceof Toggleable) {
@@ -36,15 +39,13 @@ public class ToggleCommand implements CommandExecutor {
                     manager.setValue(setting, newValue);
                     Commands.sendSettingValue(sender, manager, setting);
                 } else {
-                    sender.sendMessage(Commands.NO_PERMISSION);
+                    throw new CommandException(Commands.NO_PERMISSION);
                 }
             } else {
-                sender.sendMessage(ChatColor.RED + setting.getName() + " is not toggleable");
+                throw new CommandException(setting.getName() + " is not toggleable");
             }
         } else {
-            sender.sendMessage(Commands.SETTING_NOT_FOUND);
+            throw new CommandException(Commands.SETTING_NOT_FOUND);
         }
-
-        return true;
     }
 }
