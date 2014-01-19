@@ -23,6 +23,7 @@ public class SettingCommand {
         aliases = {"setting"},
         usage = "<setting>",
         desc = "Gets the option you have selected for a specific setting",
+        min = 1,
         max = 1
     )
     public static void setting(CommandContext args, CommandSender sender) throws CommandException {
