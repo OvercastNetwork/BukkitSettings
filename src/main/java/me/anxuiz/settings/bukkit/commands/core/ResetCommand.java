@@ -19,7 +19,7 @@ public class ResetCommand {
         aliases = {"reset"},
         usage = "<setting>",
         desc = "Resets a setting to its default value",
-        max = 1
+        min = 1
     )
     public static void reset(CommandContext args, CommandSender sender) throws CommandException {
         if (!(sender instanceof Player)) {
