@@ -45,6 +45,8 @@ public final class BukkitSettingsPlugin extends JavaPlugin {
     public void onEnable() {
         inst = this;
 
+        this.setupCommands();
+
         // Assign Tab Completers
         this.getCommand("get").setTabCompleter(new GenericTabCompleter(
                 new PermissionsChecker() {
