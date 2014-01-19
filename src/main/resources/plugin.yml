@@ -19,3 +19,6 @@ commands:
   toggle:
     usage: /<command> <setting name>
     description: Toggles a specified setting if it is toggleable
+  reset:
+    usage: /<command> <setting name>
+    description: Sets the value of a specified setting to its default value
