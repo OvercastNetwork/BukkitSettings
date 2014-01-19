@@ -28,6 +28,7 @@ public final class BukkitSettingsPlugin extends JavaPlugin {
         this.getCommand("setting").setExecutor(new SettingCommand());
         this.getCommand("settings").setExecutor(new SettingsCommand());
         this.getCommand("toggle").setExecutor(new ToggleCommand());
+        this.getCommand("reset").setExecutor(new ResetCommand());
 
         // Assign Tab Completers
         this.getCommand("get").setTabCompleter(new GenericTabCompleter(
@@ -53,5 +54,6 @@ public final class BukkitSettingsPlugin extends JavaPlugin {
                     }
                 }
         ));
+        this.getCommand("reset").setTabCompleter(setTabCompleter);
     }
 }
