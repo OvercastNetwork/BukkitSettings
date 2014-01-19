@@ -3,6 +3,14 @@ package me.anxuiz.settings.bukkit.plugin;
 import javax.annotation.Nullable;
 
 import me.anxuiz.settings.Setting;
+import me.anxuiz.settings.bukkit.commands.core.GetCommand;
+import me.anxuiz.settings.bukkit.commands.core.SetCommand;
+import me.anxuiz.settings.bukkit.commands.core.SettingCommand;
+import me.anxuiz.settings.bukkit.commands.core.SettingsCommand;
+import me.anxuiz.settings.bukkit.commands.core.ToggleCommand;
+import me.anxuiz.settings.bukkit.commands.util.GenericTabCompleter;
+import me.anxuiz.settings.bukkit.commands.util.Permissions;
+import me.anxuiz.settings.bukkit.commands.util.PermissionsChecker;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

@@ -1,9 +1,11 @@
-package me.anxuiz.settings.bukkit.plugin;
+package me.anxuiz.settings.bukkit.commands.core;
 
 import me.anxuiz.settings.Setting;
 import me.anxuiz.settings.SettingManager;
 import me.anxuiz.settings.Toggleable;
 import me.anxuiz.settings.bukkit.PlayerSettings;
+import me.anxuiz.settings.bukkit.commands.util.Commands;
+import me.anxuiz.settings.bukkit.commands.util.Permissions;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

@@ -1,8 +1,9 @@
-package me.anxuiz.settings.bukkit.plugin;
+package me.anxuiz.settings.bukkit.commands.util;
 
 import com.google.common.collect.Lists;
 import me.anxuiz.settings.Setting;
 import me.anxuiz.settings.bukkit.PlayerSettings;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;

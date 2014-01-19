@@ -1,4 +1,4 @@
-package me.anxuiz.settings.bukkit.plugin;
+package me.anxuiz.settings.bukkit.commands.util;
 
 import me.anxuiz.settings.Setting;
 import me.anxuiz.settings.SettingManager;
