@@ -28,6 +28,8 @@ public class ResetCommand implements CommandExecutor {
                 PlayerSettings.getManager((Player)sender).deleteValue(setting);
                 sender.sendMessage("Successfully reset " + ChatColor.YELLOW + setting.getName() + ChatColor.RESET + " to its default value.");
                 Commands.sendSettingValue(sender, setting);
+            } else {
+                sender.sendMessage(Commands.NO_PERMISSION);
             }
         } else {
             sender.sendMessage(Commands.SETTING_NOT_FOUND);
