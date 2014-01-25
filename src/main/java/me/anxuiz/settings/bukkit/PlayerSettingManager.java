@@ -67,9 +67,13 @@ public class PlayerSettingManager extends AbstractSettingManager {
     public void deleteValue(Setting setting) {
         Preconditions.checkNotNull(setting, "setting");
 
-        if(this.parent != null) {
-            this.player.removeMetadata(getMetadataKey(setting), this.parent);
+        if(this.parent == null) {
+            return;
         }
+
+        this.callbackManager.notifyChange(this, setting, this.getValue(setting), setting.getDefaultValue(), true);
+
+        this.player.removeMetadata(getMetadataKey(setting), this.parent);
     }
 
     private static String getMetadataKey(Setting setting) {
