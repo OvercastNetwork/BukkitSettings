@@ -26,7 +26,7 @@ public class SettingsCommand implements CommandExecutor {
 
         List<Setting> settings = getSortedPlayerSettings(sender);
 
-        int maxPage = Math.max(1, settings.size() / RESULTS_PER_PAGE); // minimum max page is 1
+        int maxPage = (settings.size() - 1) / RESULTS_PER_PAGE + 1;
 
         int page = 1;
         if(args.length > 0) {
