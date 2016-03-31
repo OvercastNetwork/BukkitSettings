@@ -8,12 +8,14 @@ import java.util.List;
 import me.anxuiz.settings.Setting;
 import me.anxuiz.settings.bukkit.PlayerSettings;
 
+import me.anxuiz.settings.bukkit.plugin.gui.SettingsMenuBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import com.google.common.collect.Lists;
+import org.bukkit.entity.Player;
 
 public class SettingsCommand implements CommandExecutor {
     public static int RESULTS_PER_PAGE = 8;
@@ -24,31 +26,40 @@ public class SettingsCommand implements CommandExecutor {
             return true;
         }
 
-        List<Setting> settings = getSortedPlayerSettings(sender);
-
-        int maxPage = (settings.size() - 1) / RESULTS_PER_PAGE + 1;
-
-        int page = 1;
-        if(args.length > 0) {
-            try {
-                page = Integer.parseInt(args[0]);
-            } catch (NumberFormatException e) {
-                sender.sendMessage(ChatColor.RED + "Unable to parse page number");
+        if (!(args.length > 0)) {
+            if (sender instanceof Player) {
+                ((Player) sender).openInventory(SettingsMenuBuilder.build((Player) sender));
                 return true;
             }
+        } else {
+
+            List<Setting> settings = getSortedPlayerSettings(sender);
+
+            int maxPage = (settings.size() - 1) / RESULTS_PER_PAGE + 1;
+
+            int page = 1;
+            if (args.length > 1) {
+                try {
+                    page = Integer.parseInt(args[1]);
+                } catch (NumberFormatException e) {
+                    sender.sendMessage(ChatColor.RED + "Unable to parse page number");
+                    return true;
+                }
+            }
+            page = Math.min(maxPage, Math.max(page, 1)); // constrain page to valid number
+
+            String title = ChatColor.YELLOW + "Settings (Page " + page + " of " + maxPage + ")";
+            sender.sendMessage(Commands.formatHeader(title));
+
+            for (int i = RESULTS_PER_PAGE * (page - 1); i < RESULTS_PER_PAGE * page && i < settings.size(); i++) {
+                Setting setting = settings.get(i);
+                sender.sendMessage(ChatColor.YELLOW + setting.getName() + ": " + ChatColor.RESET + setting.getSummary());
+            }
+
         }
-        page = Math.min(maxPage, Math.max(page, 1)); // constrain page to valid number
-
-        String title = ChatColor.YELLOW + "Settings (Page " + page + " of " + maxPage + ")";
-        sender.sendMessage(Commands.formatHeader(title));
-
-        for(int i = RESULTS_PER_PAGE * (page - 1); i < RESULTS_PER_PAGE * page && i < settings.size(); i++) {
-            Setting setting = settings.get(i);
-            sender.sendMessage(ChatColor.YELLOW + setting.getName() + ": " + ChatColor.RESET + setting.getSummary());
-        }
-
         return true;
     }
+
 
     public static List<Setting> getSortedPlayerSettings() {
         List<Setting> settings = Lists.newArrayList(PlayerSettings.getRegistry().getSettings());
