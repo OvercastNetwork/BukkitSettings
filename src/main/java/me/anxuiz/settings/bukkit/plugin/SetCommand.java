@@ -1,7 +1,9 @@
 package me.anxuiz.settings.bukkit.plugin;
 
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
+import com.google.common.util.concurrent.Futures;
 import me.anxuiz.settings.Setting;
 import me.anxuiz.settings.SettingManager;
 import me.anxuiz.settings.TypeParseException;
@@ -16,7 +18,7 @@ import org.bukkit.entity.Player;
 import com.google.common.base.Joiner;
 
 public class SetCommand implements CommandExecutor {
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(final CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player)) {
             sender.sendMessage(Commands.PLAYERS_ONLY);
             return true;
@@ -28,7 +30,7 @@ public class SetCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        Setting setting = PlayerSettings.getRegistry().get(args[0], true);
+        final Setting setting = PlayerSettings.getRegistry().get(args[0], true);
 
         if(setting != null && Permissions.hasViewPermission(sender, setting)) {
             if(Permissions.hasSetPermission(sender, setting)) {
@@ -42,9 +44,13 @@ public class SetCommand implements CommandExecutor {
                     sender.sendMessage(ChatColor.RED + "Error: " + e.getMessage());
                     return true;
                 }
-                SettingManager manager = PlayerSettings.getManager(player);
-                manager.setValue(setting, value);
-                Commands.sendSettingValue(sender, manager, setting);
+                final SettingManager manager = PlayerSettings.getManager(player);
+                Futures.addCallback(manager.setValue(setting, value), new CommandFutureCallback<Object>(sender) {
+                    @Override
+                    public void onSuccess(@Nullable Object result) {
+                        Commands.sendSettingValue(getSender(), manager, setting);
+                    }
+                });
             } else {
                 sender.sendMessage(Commands.NO_PERMISSION);
             }

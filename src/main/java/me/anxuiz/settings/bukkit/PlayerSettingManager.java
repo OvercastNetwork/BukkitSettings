@@ -5,6 +5,8 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import me.anxuiz.settings.Setting;
 import me.anxuiz.settings.SettingCallbackManager;
 import me.anxuiz.settings.base.AbstractSettingManager;
@@ -35,6 +37,13 @@ public class PlayerSettingManager extends AbstractSettingManager {
         return this.player;
     }
 
+    protected Plugin getPlugin() {
+        if(parent == null) {
+            throw new IllegalStateException("Settings plugin is not enabled");
+        }
+        return parent;
+    }
+
     @Override
     public Object getRawValue(Setting setting) {
         Preconditions.checkNotNull(setting, "setting");
@@ -48,32 +57,31 @@ public class PlayerSettingManager extends AbstractSettingManager {
         }
     }
 
-    public void setValue(Setting setting, Object value, boolean notifyGlobal) {
+    public ListenableFuture<Object> setValue(Setting setting, Object value, boolean notifyGlobal) {
         Preconditions.checkNotNull(setting, "setting");
         Preconditions.checkNotNull(value, "value");
         Preconditions.checkArgument(setting.getType().isInstance(value), "value is not the correct type");
-
-        if(this.parent == null) {
-            return;
-        }
+        getPlugin();
 
         Object oldValue = this.getValue(setting);
 
         this.callbackManager.notifyChange(this, setting, oldValue, value, notifyGlobal);
 
-        this.player.setMetadata(getMetadataKey(setting), new FixedMetadataValue(this.parent, value));
+        this.player.setMetadata(getMetadataKey(setting), new FixedMetadataValue(getPlugin(), value));
+
+        return Futures.immediateFuture(oldValue);
     }
 
-    public void deleteValue(Setting setting) {
+    public ListenableFuture<Object> deleteValue(Setting setting) {
         Preconditions.checkNotNull(setting, "setting");
+        getPlugin();
 
-        if(this.parent == null) {
-            return;
-        }
+        final Object oldValue = this.getValue(setting);
+        this.callbackManager.notifyChange(this, setting, oldValue, setting.getDefaultValue(), true);
 
-        this.callbackManager.notifyChange(this, setting, this.getValue(setting), setting.getDefaultValue(), true);
+        this.player.removeMetadata(getMetadataKey(setting), getPlugin());
 
-        this.player.removeMetadata(getMetadataKey(setting), this.parent);
+        return Futures.immediateFuture(oldValue);
     }
 
     private static String getMetadataKey(Setting setting) {
@@ -81,13 +89,11 @@ public class PlayerSettingManager extends AbstractSettingManager {
     }
 
     private Object getMetadataValue(String key) {
-        if(this.parent == null) {
-            return null;
-        }
+        getPlugin();
 
         List<MetadataValue> values = this.player.getMetadata(key);
         for(MetadataValue value : values) {
-            if(value.getOwningPlugin().equals(this.parent)) {
+            if(value.getOwningPlugin().equals(getPlugin())) {
                 return value.value();
             }
         }

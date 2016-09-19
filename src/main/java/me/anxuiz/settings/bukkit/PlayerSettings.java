@@ -11,8 +11,6 @@ import me.anxuiz.settings.bukkit.plugin.BukkitSettingsPlugin;
 
 import org.bukkit.entity.Player;
 
-import com.google.common.base.Preconditions;
-
 public class PlayerSettings {
     private static final SettingRegistry registry = new SimpleSettingRegistry();
     private static final SimpleSettingCallbackManager callbackManager = new SimpleSettingCallbackManager();
@@ -26,8 +24,21 @@ public class PlayerSettings {
     }
 
     public static @Nonnull SettingManager getManager(@Nonnull Player player) {
-        Preconditions.checkNotNull(player, "player");
+        return provider.getManager(player);
+    }
 
-        return new PlayerSettingManager(callbackManager, BukkitSettingsPlugin.get(), player);
+    private static SettingManagerProvider provider = new SettingManagerProvider() {
+        @Override
+        public SettingManager getManager(Player player) {
+            return new PlayerSettingManager(callbackManager, BukkitSettingsPlugin.get(), player);
+        }
+    };
+
+    public static SettingManagerProvider getProvider() {
+        return provider;
+    }
+
+    public static void setProvider(SettingManagerProvider provider) {
+        PlayerSettings.provider = provider;
     }
 }

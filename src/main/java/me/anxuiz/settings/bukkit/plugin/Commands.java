@@ -1,5 +1,7 @@
 package me.anxuiz.settings.bukkit.plugin;
 
+import javax.annotation.Nullable;
+
 import me.anxuiz.settings.Setting;
 import me.anxuiz.settings.SettingManager;
 import me.anxuiz.settings.bukkit.PlayerSettings;
@@ -27,14 +29,19 @@ public class Commands {
         return padding + ChatColor.RESET + " " + title + " " + padding;
     }
 
-    public static void sendSettingValue(CommandSender sender, Setting setting) {
+    public static void sendSettingValue(@Nullable CommandSender sender, Setting setting) {
         if(sender instanceof Player) {
             sendSettingValue(sender, PlayerSettings.getManager((Player) sender), setting);
         }
     }
 
-    public static void sendSettingValue(CommandSender sender, SettingManager settingManager, Setting setting) {
-        Object value = settingManager.getValue(setting);
+    public static void sendSettingValue(@Nullable CommandSender sender, SettingManager settingManager, Setting setting) {
+        if(sender == null) return;
+        sendSettingValue(sender, setting, settingManager.getValue(setting));
+    }
+
+    public static void sendSettingValue(@Nullable CommandSender sender, Setting setting, @Nullable Object value) {
+        if(sender == null) return;
         sender.sendMessage(ChatColor.YELLOW + setting.getName() + ": " + ChatColor.RESET + setting.getType().print(value));
     }
 }
