@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 import me.anxuiz.settings.Setting;
 import me.anxuiz.settings.SettingCallback;
 import me.anxuiz.settings.SettingManager;
-
+import me.anxuiz.settings.base.SimpleSettingCallbackManager;
 import org.bukkit.entity.Player;
 
 public abstract class PlayerSettingCallback implements SettingCallback {
@@ -17,5 +17,9 @@ public abstract class PlayerSettingCallback implements SettingCallback {
             Player player = ((PlayerSettingManager) manager).getPlayer();
             this.notifyChange(player, setting, oldValue, newValue);
         }
+    }
+
+    protected void yield() {
+        SimpleSettingCallbackManager.yield();
     }
 }

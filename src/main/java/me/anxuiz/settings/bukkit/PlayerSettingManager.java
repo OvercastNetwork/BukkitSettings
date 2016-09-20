@@ -48,32 +48,13 @@ public class PlayerSettingManager extends AbstractSettingManager {
         }
     }
 
-    public void setValue(Setting setting, Object value, boolean notifyGlobal) {
-        Preconditions.checkNotNull(setting, "setting");
-        Preconditions.checkNotNull(value, "value");
-        Preconditions.checkArgument(setting.getType().isInstance(value), "value is not the correct type");
-
-        if(this.parent == null) {
-            return;
+    protected void setRawValue(Setting setting, @Nullable Object value) {
+        if(this.parent == null) return;
+        if(value == null) {
+            this.player.removeMetadata(getMetadataKey(setting), this.parent);
+        } else {
+            this.player.setMetadata(getMetadataKey(setting), new FixedMetadataValue(this.parent, value));
         }
-
-        Object oldValue = this.getValue(setting);
-
-        this.callbackManager.notifyChange(this, setting, oldValue, value, notifyGlobal);
-
-        this.player.setMetadata(getMetadataKey(setting), new FixedMetadataValue(this.parent, value));
-    }
-
-    public void deleteValue(Setting setting) {
-        Preconditions.checkNotNull(setting, "setting");
-
-        if(this.parent == null) {
-            return;
-        }
-
-        this.callbackManager.notifyChange(this, setting, this.getValue(setting), setting.getDefaultValue(), true);
-
-        this.player.removeMetadata(getMetadataKey(setting), this.parent);
     }
 
     private static String getMetadataKey(Setting setting) {
