@@ -14,8 +14,8 @@ commands:
     usage: /<command> <setting name>
     description: View information about a specified setting
   settings:
-    usage: /<command> [page]
-    description: List registered settings
+    usage: /<command> [list] [page]
+    description: Open a menu to view and edit all settings or simply list all settings
   toggle:
     usage: /<command> <setting name>
     description: Toggles a specified setting if it is toggleable
