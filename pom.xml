@@ -43,7 +43,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.OvercastNetwork</groupId>
-            <artifactId>Settings</artifactId>
+            <artifactId>settings</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
